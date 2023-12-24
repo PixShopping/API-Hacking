@@ -1,24 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Exemplo de Solicitação da API</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./style.css">
+  <title>Hacking</title>
+
 </head>
 <body>
-  <h2>Faça uma solicitação GET para a API</h2>
+
+  <main class="container">
+
+    <h1>Consultar Dados</h1>
+    <input id="nome" placeholder="Nome da Pessoa" type="text">
+    <button onclick="consultarDados()">Pesquisar</button>
+    
+  </main>
+
+  <section id="resultado" class="resultados">
+
+    <article class="noticias">
+      
+      <h1>Noticias: </h1>
+
+    </article>
+
+    <article class="websites">
+      
+      <h1>Websites: </h1>
+
+    </article>
+
+  </section>
+
+  <div class="carregando">
+    
+  </div>
+
   
-  <button style="background: #002242; color: white; height: 45px; width: 250px; font-size: 17px; font-weight: 600;
-  border-radius: 5px; outline: none; border: none; cursor: pointer;" onclick="fazerSolicitacao()">Enviar Solicitação POST</button>
 
   <script>
-    function fazerSolicitacao() {
+    function consultarDados() {
         //const apiUrl = 'https://apipuppeteer.onrender.com/login'; // Substitua pela URL da sua API
         const apiUrl = 'http://127.0.0.1:3000/consultar'; // Substitua pela URL da sua API
-        const usuario = 'Isadora Provasi Ramos de Jesus';
+        const usuario = document.getElementById('nome').value;
+        const resultados = document.querySelector('.resultados');
+        const noticias = document.querySelector('.noticias');
+        const websites = document.querySelector('.websites');
         
+
         fetch(apiUrl + `?nome=${usuario}`)
             .then(response => response.json())
-            .then(data => {
-              console.log(data.status);
+            .then((data) => {
+              document.body.style.overflowY = "auto";
+              resultados.style.display = "flex";
+              window.location.href = "#resultado";
+
+              const news = data.noticias;
+              console.log(news)
+              news.forEach((noticia) => {
+                var titulo = noticia.titulo;
+                var texto = noticia.texto;
+                var dominio = noticia.dominio;
+                noticias.innerHTML += `
+                  <div class="arquivo">
+                    <h1>${titulo}</h1>
+                    <p>${texto}</p>
+                    <a>${dominio}</a>
+                  </div>
+                `;  
+              });
+              const web = data.websites;
+              console.log(web)
+              web.forEach((site) => {
+                var titulo = site.titulo;
+                var texto = site.texto;
+                var dominio = site.dominio;
+                websites.innerHTML += `
+                  <div class="arquivo">
+                    <h1>${titulo}</h1>
+                    <p>${texto}</p>
+                    <a>${dominio}</a>
+                  </div>
+                `;            
+              });
             })
             .catch(error => {
               console.error('Erro na solicitação GET:', error);
