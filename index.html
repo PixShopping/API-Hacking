@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Exemplo de Solicitação da API</title>
+</head>
+<body>
+  <h2>Faça uma solicitação GET para a API</h2>
+  
+  <button style="background: #002242; color: white; height: 45px; width: 250px; font-size: 17px; font-weight: 600;
+  border-radius: 5px; outline: none; border: none; cursor: pointer;" onclick="fazerSolicitacao()">Enviar Solicitação POST</button>
+
+  <script>
+    function fazerSolicitacao() {
+        //const apiUrl = 'https://apipuppeteer.onrender.com/login'; // Substitua pela URL da sua API
+        const apiUrl = 'http://127.0.0.1:3000/consultar'; // Substitua pela URL da sua API
+        const usuario = 'Isadora Provasi Ramos de Jesus';
+        
+        fetch(apiUrl + `?nome=${usuario}`)
+            .then(response => response.json())
+            .then(data => {
+              console.log(data.status);
+            })
+            .catch(error => {
+              console.error('Erro na solicitação GET:', error);
+            });
+    }
+  </script>
+</body>
+</html>
