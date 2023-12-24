@@ -12,22 +12,57 @@
   <main class="container">
 
     <h1>Consultar Dados</h1>
-    <input id="nome" placeholder="Nome da Pessoa" type="text">
+    <input id="nome" placeholder="Nome" type="text">
+    <div class="flex">
+      <select id="estado" name="estado">
+          <option value="">Estado</option>
+          <option value="AC">Acre</option>
+          <option value="AL">Alagoas</option>
+          <option value="AP">Amapá</option>
+          <option value="AM">Amazonas</option>
+          <option value="BA">Bahia</option>
+          <option value="CE">Ceará</option>
+          <option value="DF">Distrito Federal</option>
+          <option value="ES">Espírito Santo</option>
+          <option value="GO">Goiás</option>
+          <option value="MA">Maranhão</option>
+          <option value="MT">Mato Grosso</option>
+          <option value="MS">Mato Grosso do Sul</option>
+          <option value="MG">Minas Gerais</option>
+          <option value="PA">Pará</option>
+          <option value="PB">Paraíba</option>
+          <option value="PR">Paraná</option>
+          <option value="PE">Pernambuco</option>
+          <option value="PI">Piauí</option>
+          <option value="RJ">Rio de Janeiro</option>
+          <option value="RN">Rio Grande do Norte</option>
+          <option value="RS">Rio Grande do Sul</option>
+          <option value="RO">Rondônia</option>
+          <option value="RR">Roraima</option>
+          <option value="SC">Santa Catarina</option>
+          <option value="SP">São Paulo</option>
+          <option value="SE">Sergipe</option>
+          <option value="TO">Tocantins</option>
+      </select> 
+      <input id="cidade" placeholder="Cidade" type="text">
+    </div>
     <button onclick="consultarDados()">Pesquisar</button>
     
   </main>
 
   <section id="resultado" class="resultados">
 
+    <h1>Notícias: </h1>
     <article class="noticias">
       
-      <h1>Notícias: </h1>
+      
 
     </article>
 
+    <h1>Websites: </h1>
     <article class="websites">
       
-      <h1>Websites: </h1>
+      
 
     </article>
 
@@ -43,26 +78,40 @@
   
 
   <script>
+
+    function mouseCarregando() {
+      document.body.style.cursor = "wait";  
+    }
+
+    function mouseNormal() {
+      document.body.style.cursor = "default";
+    }
+
     function consultarDados() {
-        //const apiUrl = 'https://apipuppeteer.onrender.com/login'; // Substitua pela URL da sua API
-        const apiUrl = 'https://api-hack.onrender.com/consultar'; // Substitua pela URL da sua API
+        const apiCPF = 'http://127.0.0.1:3000/cpf'; // Substitua pela URL da sua API
+        const apiCONSULTA = 'https://api-hack.onrender.com/consultar'; // Substitua pela URL da sua API
         const usuario = document.getElementById('nome').value;
+        const estado = document.getElementById('estado').value;
+        const cidade = document.getElementById('cidade').value;
         const resultados = document.querySelector('.resultados');
         const noticias = document.querySelector('.noticias');
         const websites = document.querySelector('.websites');
         const carregando = document.querySelector('.divCarregando');
         
         carregando.style.display = "flex";
+        mouseCarregando();
         resultados.style.display = "none";
 
-        fetch(apiUrl + `?nome=${usuario}`)
+        fetch(apiCONSULTA + `?nome=${usuario}`)
             .then(response => response.json())
             .then((data) => {
               document.body.style.overflowY = "auto";
               resultados.style.display = "flex";
               window.location.href = "#resultado";
               carregando.style.display = "none";
-
+              mouseNormal();
+              noticias.innerHTML = '';
+              websites.innerHTML = '';
               const news = data.noticias;
               news.forEach((noticia) => {
                 var titulo = noticia.titulo;
@@ -77,7 +126,6 @@
                 `;  
               });
               const web = data.websites;
-              console.log(web)
               web.forEach((site) => {
                 var titulo = site.titulo;
                 var texto = site.texto;
@@ -90,6 +138,19 @@
                   </div>
                 `;            
               });
+            })
+            .catch(error => {
+              console.error('Erro na solicitação GET:', error);
+            });
+
+            fetch(apiCPF + `?nome=${usuario}&estado=${estado}&cidade=${cidade}`)
+            .then(response => response.json())
+            .then((data) => {
+              document.body.style.overflowY = "auto";
+              resultados.style.display = "flex";
+              window.location.href = "#resultado";
+              carregando.style.display = "none";
+              console.log(data)
             })
             .catch(error => {
               console.error('Erro na solicitação GET:', error);

@@ -68,6 +68,39 @@ body, html {
     box-shadow: 0px 0px 15px green;
 }
 
+.container .flex {
+    width: 85%;
+    max-width: 500px;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0px;
+}
+
+.container .flex input {
+    width: 57.5%;
+}
+
+.container select {
+    height: 50px;
+    width: 40%;
+    max-width: 500px;
+    border-radius: 10px;
+    padding: 0px 15px;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    border: 2px solid green;
+    background: #232323;
+    color: rgb(64, 255, 47);
+    outline: none;
+    cursor: pointer;
+}
+
+.container select:focus {
+    box-shadow: 0px 0px 15px green;
+}
+
 
 /* BOTÃO DE PESQUISA */
 .container button {
